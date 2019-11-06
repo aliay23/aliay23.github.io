@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    var watchListJSON = localStorage.getItem("watchlist");
+    var watchlist = JSON.parse(watchListJSON);
+    console.log(watchlist);
 
   function renderMovies(movieArray) {
     var movieHTML = movieArray.map(function (currentMovie){
@@ -11,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
 										<p class="card-text">IMDB ID: ${currentMovie.imdbID}</p>
 										<button onclick="saveToWatchlist('${currentMovie.imdbID}')" class="btn btn-primary">Go somewhere</button>
 									</div>
+						</div>      
+									</div>
 							</div>
           </div>
           `;
@@ -20,28 +25,5 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   var content = document.getElementById('movies-container');
-  content.innerHTML = renderMovies(movieData);
-  
+  content.innerHTML = renderMovies(watchlist);
 });
-
-
-
-function saveToWatchlist(imdbID) {
-  var movie = movieData.find(function (currentMovie) {
-      return currentMovie.imdbID == imdbID;
-  })
-
-  var watchlistJSON = localStorage.getItem("watchlist");
-  if (watchlistJSON === null) {
-    var watchlist = [];
-  } else{
-    var watchlist = JSON.parse(watchlistJSON);
-  }
-
-  watchlist.push(movie);
-
-  watchlistJSON = JSON.stringify(watchlist);
-  localStorage.setItem("watchlist", watchlistJSON);
-
-  console.log(watchlist);
-}
